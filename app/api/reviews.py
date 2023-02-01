@@ -1,14 +1,13 @@
 from typing import List, Optional, Union
 
 import pandas as pd
-from fastapi import APIRouter, Depends
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from core.db import get_async_session
 from crud.reviews import (create_new_review, get_list_metric_by_tag_id,
                           get_metric_by_id, get_metric_general)
+from fastapi import APIRouter, Depends
 from models.reviews import Review
 from schemas.reviews import ReviewAPI, ReviewDB
+from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter()
 
@@ -38,6 +37,7 @@ async def create_review_list(
         session.add(db_review)
         await session.commit()
         await session.refresh(db_review)
+    return 'OK'
 
 
 @router.post(

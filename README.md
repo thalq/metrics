@@ -81,3 +81,11 @@ docker-compose up -d
 ```
 uvicorn main:app --reload
 ```
+
+## Добавляем данные из файла .csv
+
+POST request:
+```
+http://127.0.0.1:8000/create
+```
+В ответе видим Null.
