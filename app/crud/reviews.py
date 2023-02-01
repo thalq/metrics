@@ -1,9 +1,10 @@
 from typing import Optional
 
-from models.reviews import Review
-from schemas.reviews import ReviewAPI, ReviewDB
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from models.reviews import Review
+from schemas.reviews import ReviewAPI
 
 
 def get_metric(is_negative, is_positive) -> float:
@@ -73,7 +74,6 @@ async def get_metric_general(
         select(Review).where(Review.is_positive == True)
     )
     db_review_is_positive_all = db_review_is_positive_all.scalars().all()
-    print(db_review_is_positive_all)
     db_review_is_negative_all = await session.execute(
         select(Review).where(Review.is_negative == True)
     )

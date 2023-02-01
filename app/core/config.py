@@ -1,4 +1,17 @@
+import os
+
+from dotenv import load_dotenv
 from pydantic import BaseSettings
+
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL").format(
+    POSTGRES_USER=os.getenv("POSTGRES_USER"),
+    POSTGRES_PASSWORD=os.getenv("POSTGRES_PASSWORD"),
+    POSTGRES_HOST=os.getenv("POSTGRES_HOST"),
+    POSTGRES_PORT=os.getenv("POSTGRES_PORT"),
+    POSTGRES_DB=os.getenv("POSTGRES_DB"),
+)
 
 
 class Settings(BaseSettings):
@@ -14,3 +27,4 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+settings.database_url = DATABASE_URL

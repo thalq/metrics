@@ -1,14 +1,14 @@
-import csv
 from typing import List, Optional, Union
 
 import pandas as pd
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from core.db import get_async_session
 from crud.reviews import (create_new_review, get_list_metric_by_tag_id,
                           get_metric_by_id, get_metric_general)
-from fastapi import APIRouter, Depends
 from models.reviews import Review
 from schemas.reviews import ReviewAPI, ReviewDB
-from sqlalchemy.ext.asyncio import AsyncSession
 
 router = APIRouter()
 
@@ -17,12 +17,12 @@ def read_file():
     """
     Читает данные из файла .csv.
     """
-    file_reader = pd.read_csv("reviews_sentiments_202301301810.csv", delimiter=';')
+    file_reader = pd.read_csv("reviews_sentiments_202301301810.csv", delimiter=";")
     return file_reader
 
 
 @router.post(
-    '/create',
+    "/create",
     response_model_exclude_none=True,
 )
 async def create_review_list(
@@ -32,7 +32,7 @@ async def create_review_list(
     Добавляет данные из файла .csv в базу данных.
     """
     file_reader = read_file()
-    for i in range (0, len(file_reader)):
+    for i in range(0, len(file_reader)):
         row = file_reader.iloc[i].to_dict()
         db_review = Review(**row)
         session.add(db_review)
